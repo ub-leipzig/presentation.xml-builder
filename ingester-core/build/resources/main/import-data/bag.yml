@@ -1,0 +1,11 @@
+bag-info.txt:
+  Source-Organization: Pandora Systems
+  Organization-Address:
+  Contact-Name: Christopher Johnson
+  Contact-Phone: +14167362100
+  Contact-Email: chjohnson39@gmail.com
+  External-Description: Sample bag exported from fcrepo
+  External-Identifier: SAMPLE_001
+  Bag-Group-Identifier: SAMPLE
+  Internal-Sender-Identifier: SAMPLE_001
+  Internal-Sender-Description: Sample bag exported from fcrepo

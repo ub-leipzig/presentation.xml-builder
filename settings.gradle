@@ -1,0 +1,3 @@
+rootProject.name = 'rdfxml-ingest'
+include 'ingester-core'
+include 'modeller-fedora'
