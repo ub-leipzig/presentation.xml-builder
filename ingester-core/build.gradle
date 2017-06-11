@@ -1,17 +1,21 @@
 group 'cool.pandora'
 
 apply plugin: 'java'
+apply plugin: 'application'
 
 sourceCompatibility = 1.8
-
+mainClassName = "cool.pandora.ingester.IngesterDriver"
 repositories {
     mavenCentral()
 }
+jar.baseName = "ingester"
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
     compile group: 'commons-io', name: 'commons-io', version: '2.5'
     compile group: 'org.xmlbeam', name: 'xmlprojector', version: '1.4.8'
     compile group: 'org.apache.jena', name: 'jena-arq', version: '3.1.0'
     compile group: 'org.apache.jena', name: 'jena-core', version: '3.1.0'
+    compile group: 'net.sf.saxon', name: 'Saxon-HE', version: '9.8.0-1'
     compile project(':modeller-fedora')
 }

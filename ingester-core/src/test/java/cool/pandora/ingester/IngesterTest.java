@@ -6,9 +6,7 @@ import org.xmlbeam.XBProjector;
 
 import javax.xml.bind.JAXBException;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 

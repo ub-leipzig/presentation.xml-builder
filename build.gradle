@@ -57,8 +57,8 @@ subprojects {
     apply plugin: 'pmd'
     apply plugin: 'maven-publish'
     apply plugin: 'signing'
-    apply plugin: 'checkstyle'
-    apply plugin: 'com.github.hierynomus.license'
+//    apply plugin: 'checkstyle'
+//    apply plugin: 'com.github.hierynomus.license'
     apply plugin: 'jacoco'
     apply plugin: 'signing'
 
@@ -93,12 +93,11 @@ subprojects {
         ignoreFailures = true //don't fail the gradle build if rules are broken
     }
 
-    //sign all the bagger jars
     jar.doLast {
         ant.signjar(destDir: jar.destinationDir,
                 jar: jar.archivePath,
                 alias: "rdc",
-                keystore: "${rootDir.path}/keystore/bagger.ks",
+                keystore: "${rootDir.path}/keystore/ingester.ks",
                 storepass: "bagger-rdc",
                 preservelastmodified: "true")
     }
@@ -130,10 +129,10 @@ subprojects {
         classes.dependsOn processConfig
     }
 
-    checkstyle {
-        configFile = rootProject.file('build/checkstyle/checkstyle.xml')
-        configProperties.checkstyleConfigDir = rootProject.file('build/checkstyle/')
-    }
+ //   checkstyle {
+ //       configFile = rootProject.file('build/checkstyle/checkstyle.xml')
+ //       configProperties.checkstyleConfigDir = rootProject.file('build/checkstyle/')
+ //   }
 
     jacoco {
         toolVersion = "0.7.6.201602180812"
@@ -156,9 +155,9 @@ subprojects {
         }
     }
 
-    signing {
-        sign configurations.archives
-    }
+//    signing {
+//        sign configurations.archives
+//    }
 
     uploadArchives {
         repositories.mavenDeployer {

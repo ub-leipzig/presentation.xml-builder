@@ -1,51 +1,49 @@
 package cool.pandora.ingester;
 
-import org.xmlbeam.XBProjector;
+import cool.pandora.ingester.common.Config;
+import cool.pandora.ingester.common.TransferProcess;
+import org.slf4j.Logger;
 
-import java.io.IOException;
-import java.util.List;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+import java.io.File;
+import java.io.OutputStream;
+import java.net.URI;
 
-class Ingester {
+import static org.slf4j.LoggerFactory.getLogger;
 
-    private Ingester() {
+public class Ingester implements TransferProcess {
+    private static final Logger logger = getLogger(Ingester.class);
+    private Config config;
+
+    Ingester(final Config config) {
+        this.config = config;
+
     }
 
-    /**
-     * @param url String
-     * @return XBProjector
-     * @throws IOException Exception
-     */
-    static RDFData getRDFProjectionFromURL(final String url) throws IOException {
-        XBProjector projector = new XBProjector(XBProjector.Flags.TO_STRING_RENDERS_XML);
-        return projector.io().url(url).read(RDFData.class);
+    @Override
+    public void run() {
+        logger.info("Running importer...");
+
+        processImport(config.getXsltResource(), config.getResource());
+
     }
 
-    /**
-     * @param rdf RDFData
-     * @return ResourceId
-     */
-    static List<String> getResourceURIList(final RDFData rdf) {
-        return rdf.getResourceURIList();
-    }
+    private void processImport(final URI xsltresource, final URI resource) {
+        System.setProperty("javax.xml.transform.TransformerFactory",
+                "net.sf.saxon.TransformerFactoryImpl");
+        String resultFile = "/tmp/out.xml";
+        TransformerFactory tFactory = TransformerFactory.newInstance();
+        try {
+            Transformer transformer = tFactory.newTransformer(new StreamSource(new File(xsltresource.toString())));
 
-    /**
-     * @param rdf RDFData
-     * @return ResourceId
-     */
-    static List<RDFData.Resource> getResources(final RDFData rdf) {
-        return rdf.getResources();
-    }
+            transformer.transform(new StreamSource(new File(resource.toString())), new StreamResult(new File(resultFile)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-    /**
-     * @return XBProjector
-     * @throws IOException Exception
-     */
-    static RDFData buildRDFDoc() throws IOException {
-        XBProjector projector = new XBProjector();
-        return projector.projectEmptyDocument(RDFData.class);
     }
-
 
 }
-
-
