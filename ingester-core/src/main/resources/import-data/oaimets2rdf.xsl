@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dv="http://dfg-viewer.de/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:ow="http://www.ontoweb.org/ontology/1#" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:mets="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" exclude-result-prefixes="xsl xsi oai">
+<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dv="http://dfg-viewer.de/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:ow="http://www.ontoweb.org/ontology/1#" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:mets="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" exclude-result-prefixes="xsl xsi oai">
     <xsl:output method="xml"/>
     <xsl:template match="/">
-        <rdf:RDF xsi:schemaLocation="http://www.w3.org/1999/02/22-rdf-syntax-ns# http://www.openarchives.org/OAI/2.0/rdf.xsd">
+        <rdf:RDF>
             <xsl:apply-templates select="oai:OAI-PMH/oai:GetRecord/oai:record"/>
         </rdf:RDF>
     </xsl:template>
     <xsl:template match="oai:record" priority="1">
-        <rdf:Description rdf:about="{oai:header/oai:identifier}">
+        <rdf:Description rdf:about="{concat('http://localhost:8080/fcrepo/rest/', tokenize(oai:header/oai:identifier, ':')[5])}">
             <xsl:apply-templates select="oai:metadata/mets:mets/mets:mets/mets:metsHdr"/>
             <xsl:apply-templates select="oai:metadata/mets:mets/mets:mets/mets:dmdSec"/>
             <xsl:apply-templates select="oai:metadata/mets:mets/mets:mets/mets:amdSec"/>
@@ -106,6 +106,11 @@
         <dc:date>
             <xsl:value-of select="."/>
         </dc:date>
+    </xsl:template>
+    <xsl:template match="mods:originInfo/mods:place/mods:placeTerm">
+        <dc:publisher>
+            <xsl:value-of select="."/>
+        </dc:publisher>
     </xsl:template>
     <xsl:template match="mods:abstract">
         <dc:description>
@@ -247,4 +252,5 @@
             </xlink:from>
         </mets:smLink>
     </xsl:template>
+        <xsl:template match="mods:extension"/>
 </xsl:stylesheet>

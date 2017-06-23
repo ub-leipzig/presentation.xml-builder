@@ -80,6 +80,11 @@ public class ArgParser {
                 .desc("Resource (URI) to import")
                 .required(true).build());
 
+        configOptions.addOption(Option.builder("d")
+                .longOpt("dir")
+                .hasArg(true).numberOfArgs(1).argName("dir")
+                .desc("The directory to export to")
+                .required(true).build());
     }
 
     /**
@@ -141,7 +146,7 @@ public class ArgParser {
 
         config.setResource(cmd.getOptionValue('r'));
         config.setXsltResource(cmd.getOptionValue('x'));
-
+        config.setBaseDirectory(cmd.getOptionValue('d'));
         return config;
     }
 
