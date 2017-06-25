@@ -1,0 +1,13 @@
+Payload-Oxum : 5021466.1
+Bag-Size : 4 MB
+Bagging-Date : 2017-06-26
+Source-Organization : Pandora Systems
+Organization-Address : 
+Bag-Group-Identifier : SAMPLE
+External-Identifier : SAMPLE_001
+Internal-Sender-Identifier : SAMPLE_001
+Contact-Email : chjohnson39@gmail.com
+Contact-Phone : +14167362100
+Internal-Sender-Description : Sample bag exported from fcrepo
+External-Description : Sample bag exported from fcrepo
+Contact-Name : Christopher Johnson

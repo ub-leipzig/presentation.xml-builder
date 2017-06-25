@@ -1,0 +1,14 @@
+<rdf:RDF xmlns:mets="http://www.loc.gov/METS/" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ex="http://example.org/stuff/1.0/">
+    <rdf:Description rdf:about="http://localhost:8080/fcrepo/rest/test7" dc:title="RDF/XML Syntax Specification (Revised)">
+        <ex:editor rdf:nodeID="abc"/>
+    </rdf:Description>
+    <rdf:Description rdf:nodeID="abc">
+        <ex:homePage rdf:resource="http://purl.org/net/dajobe/"/>
+        <mets:hasDMDSec rdf:nodeID="d2e831"/>
+    </rdf:Description>
+    <rdf:Description rdf:nodeID="d2e831">
+        <mets:DMDLOGID>DMDLOG_0031</mets:DMDLOGID>
+        <dc:title>Wie alle Elementische ding gegen einander/ durch wag und gewicht/ auffs aller eigentlichst verglichen werden mögen/ zu sonderlicher erkundigung mancherley verborgner geheimnuß der natur in allen künstlichen wercken.</dc:title>
+        <mods:subTitle>Der viert und letzt unterschied des anderen theils/ vom rechtem grund und verstand wag und gewichts.</mods:subTitle>
+    </rdf:Description>
+</rdf:RDF>

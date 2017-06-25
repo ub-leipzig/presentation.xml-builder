@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Christopher Johnson
  */
-@XBDocURL("resource://data/ListRecords-oai_dc.xml")
+@XBDocURL("resource://output-data/mets-rdf.xml")
 public interface RDFData {
     interface Resource {
     }
@@ -23,10 +23,19 @@ public interface RDFData {
     @XBRead("/rdf:RDF/rdf:Description/@rdf:about")
     URI getResourceURI();
 
-    @XBRead("/rdf:RDF/rdf:Description")
+    @XBRead("/rdf:RDF/*")
+    List<Resource> getGraph();
+
+    @XBRead("/rdf:RDF/rdf:Description[@rdf:about]")
     List<Resource> getResources();
 
+    @XBRead("/rdf:RDF/rdf:Description[@rdf:nodeID]")
+    List<Resource> getAnonResources();
+
     @XBWrite("/rdf:RDF/*")
-    void setResource(Resource resource);
+    void setResource(List<Resource> resources);
+
+    @XBWrite("/rdf:RDF/*")
+    void setResources(Resource resources);
 }
 

@@ -1,0 +1,2 @@
+b45973d3fdc60b2f21ed643d0c198e9d4d17f433  bagit.txt
+97b5e8bf8fb16c61e674c8770300f66bac221b9a  bag-info.txt

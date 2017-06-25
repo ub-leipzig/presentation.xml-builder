@@ -18,5 +18,5 @@ dependencies {
     compile group: 'org.apache.jena', name: 'jena-core', version: '3.1.0'
     compile group: 'net.sf.saxon', name: 'Saxon-HE', version: '9.8.0-1'
     compile group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
-    compile project(':modeller-fedora')
+    compile group: 'cool.pandora', name: 'modeller-fedora', version: '1.2.0'
 }

@@ -8,15 +8,20 @@ import org.slf4j.Logger;
 import org.xmlbeam.XBProjector;
 
 import javax.xml.bind.JAXBException;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.sax.SAXResult;
+import javax.xml.transform.sax.SAXTransformerFactory;
+import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.InputStream;
 import java.net.URI;
+import java.time.LocalTime;
 import java.util.List;
 
 import static org.apache.commons.lang3.exception.ExceptionUtils.getMessage;
@@ -40,13 +45,23 @@ public class Ingester implements TransferProcess {
     }
 
     private void processImport(final URI xsltresource, final URI resource) {
-        System.setProperty("javax.xml.transform.TransformerFactory",
-                "net.sf.saxon.TransformerFactoryImpl");
-        String resultFile = config.getBaseDirectory() + "/rdf-output.xml";
-        TransformerFactory tFactory = TransformerFactory.newInstance();
+      //  System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
+        LocalTime now = LocalTime.now();
+        String resultFile = config.getBaseDirectory() + "/rdf-output_" + now + ".xml";
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        InputStream xsltfile2 = classloader.getResourceAsStream("cool.pandora.ingester/assign_bnodes.xsl");
+        SAXTransformerFactory stf = (SAXTransformerFactory)TransformerFactory.newInstance();
+
         try {
-            Transformer transformer = tFactory.newTransformer(new StreamSource(new File(xsltresource.toString())));
-            transformer.transform(new StreamSource(new File(resource.toString())), new StreamResult(new File(resultFile)));
+            TransformerHandler th1 = stf.newTransformerHandler(stf.newTemplates(new StreamSource(new File(xsltresource.toString()))));
+            TransformerHandler th2 = stf.newTransformerHandler(stf.newTemplates(new StreamSource(xsltfile2)));
+            th1.setResult(new SAXResult(th2));
+            StreamResult result = new StreamResult(new File(resultFile));
+            th2.setResult(result);
+            Transformer t = stf.newTransformer();
+            th2.getTransformer().setOutputProperty(OutputKeys.INDENT, "yes");
+            t.transform(new StreamSource(new File(resource.toString())), new SAXResult(th1));
+
             putResult(resultFile);
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,17 +71,15 @@ public class Ingester implements TransferProcess {
     private void putResult(String resultFile) throws IOException, JAXBException {
         XBProjector projector = new XBProjector(XBProjector.Flags.TO_STRING_RENDERS_XML);
         RDFData rdf = projector.io().url(resultFile).read(RDFData.class);
-        List<RDFData.Resource> resources = rdf.getResources();
+        List<RDFData.Resource> graph = rdf.getGraph();
+        rdf.setResource(graph);
         final String contentType = "application/rdf+xml";
-        for (RDFData.Resource res : resources) {
-            rdf.setResource(res);
-            URI destinationURI = rdf.getResourceURI();
-            ByteArrayInputStream is = new ByteArrayInputStream( rdf.toString().getBytes() );
-            try {
-                ModellerClient.doStreamPut(destinationURI, is, contentType);
-            } catch (final ModellerClientFailedException e) {
-                System.out.println(getMessage(e));
-            }
+        URI destinationURI = rdf.getResourceURI();
+        ByteArrayInputStream is = new ByteArrayInputStream(rdf.toString().getBytes());
+        try {
+            ModellerClient.doStreamPut(destinationURI, is, contentType);
+        } catch (final ModellerClientFailedException e) {
+            System.out.println(getMessage(e));
         }
     }
 
