@@ -1,11 +1,7 @@
 /*
- * Licensed to DuraSpace under one or more contributor license agreements.
- * See the NOTICE file distributed with this work for additional information
- * regarding copyright ownership.
- *
- * DuraSpace licenses this file to you under the Apache License,
- * Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License.  You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -16,11 +12,6 @@
  * limitations under the License.
  */
 package cool.pandora.ingester.common;
-
-import org.apache.jena.rdf.model.Model;
-import org.fcrepo.client.FcrepoClient;
-import org.fcrepo.client.FcrepoOperationFailedException;
-import org.fcrepo.client.FcrepoResponse;
 
 import java.io.File;
 import java.io.IOException;

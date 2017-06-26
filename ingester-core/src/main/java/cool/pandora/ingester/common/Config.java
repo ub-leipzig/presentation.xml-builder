@@ -1,11 +1,7 @@
 /*
- * Licensed to DuraSpace under one or more contributor license agreements.
- * See the NOTICE file distributed with this work for additional information
- * regarding copyright ownership.
- *
- * DuraSpace licenses this file to you under the Apache License,
- * Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License.  You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -22,15 +18,9 @@ import org.slf4j.Logger;
 
 import java.io.File;
 import java.net.URI;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import static org.apache.jena.riot.RDFLanguages.contentTypeToLang;
 import static org.slf4j.LoggerFactory.getLogger;
-import static org.slf4j.helpers.NOPLogger.NOP_LOGGER;
-
 
 /**
  * @author awoods
@@ -42,8 +32,8 @@ public class Config {
 
     private final static Logger logger = getLogger(Config.class);
 
-    public static final String DEFAULT_RDF_LANG = "text/turtle";
-    public static final String DEFAULT_RDF_EXT = getRDFExtension(DEFAULT_RDF_LANG);
+    private static final String DEFAULT_RDF_LANG = "text/turtle";
+    private static final String DEFAULT_RDF_EXT = getRDFExtension(DEFAULT_RDF_LANG);
 
     private String mode;
     private URI resource;
@@ -74,7 +64,7 @@ public class Config {
      *
      * @return true if import config
      */
-    public boolean isImport() {
+    private boolean isImport() {
         return mode != null && mode.equalsIgnoreCase("import");
     }
 

@@ -1,3 +1,16 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cool.pandora.ingester;
 
 import org.slf4j.Logger;
@@ -8,6 +21,15 @@ import java.util.List;
 import cool.pandora.ingester.common.TransferProcess;
 import static org.slf4j.LoggerFactory.getLogger;
 
+/**
+ * Command-line arguments parser.
+ *
+ * @author awoods
+ * @author escowles
+ * @author whikloj
+ * @author Christopher Johnson
+ * @since 2016-08-29
+ */
 class IngesterDriver {
     private static final Logger logger = getLogger(IngesterDriver.class);
 
@@ -43,7 +65,7 @@ class IngesterDriver {
      * @throws IOException Exception
      */
     static RDFData getRDFProjectionFromURL(final String url) throws IOException {
-        XBProjector projector = new XBProjector(XBProjector.Flags.TO_STRING_RENDERS_XML);
+        final XBProjector projector = new XBProjector(XBProjector.Flags.TO_STRING_RENDERS_XML);
         return projector.io().url(url).read(RDFData.class);
     }
 
@@ -68,7 +90,7 @@ class IngesterDriver {
      * @throws IOException Exception
      */
     static RDFData buildRDFDoc() throws IOException {
-        XBProjector projector = new XBProjector();
+        final XBProjector projector = new XBProjector();
         return projector.projectEmptyDocument(RDFData.class);
     }
 

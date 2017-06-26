@@ -1,11 +1,7 @@
 /*
- * Licensed to DuraSpace under one or more contributor license agreements.
- * See the NOTICE file distributed with this work for additional information
- * regarding copyright ownership.
- *
- * DuraSpace licenses this file to you under the Apache License,
- * Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License.  You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,15 +13,18 @@
  */
 package cool.pandora.ingester;
 
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
 import org.fcrepo.client.FcrepoClient;
 import cool.pandora.ingester.common.Config;
 import cool.pandora.ingester.common.TransferProcess;
 import org.slf4j.Logger;
 
-import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.PrintWriter;
 import java.util.stream.Stream;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -38,7 +37,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * @author whikloj
  * @since 2016-08-29
  */
-public class ArgParser {
+class ArgParser {
 
     /**
      *
@@ -103,7 +102,7 @@ public class ArgParser {
      * @param args command line arguments
      * @return the parsed config file or command line args.
      */
-    protected Config parseConfiguration(final String[] args) {
+    private Config parseConfiguration(final String[] args) {
         // first see if they've specified a config file
         CommandLine c = null;
         Config config = null;
@@ -175,7 +174,7 @@ public class ArgParser {
      * @param args Command-line arguments
      * @return A configured Importer or Exporter instance.
     **/
-    public TransferProcess parse(final String[] args) {
+    TransferProcess parse(final String[] args) {
         final Config config = parseConfiguration(args);
             return new Ingester(config);
     }
