@@ -17,6 +17,8 @@ import cool.pandora.ingester.common.Config;
 import cool.pandora.ingester.common.TransferProcess;
 import cool.pandora.modeller.ModellerClient;
 import cool.pandora.modeller.ModellerClientFailedException;
+import net.sf.saxon.s9api.XdmAtomicValue;
+import net.sf.saxon.s9api.XdmValue;
 import org.slf4j.Logger;
 import org.xmlbeam.XBProjector;
 
@@ -63,7 +65,9 @@ public class Ingester implements TransferProcess {
     }
 
     private void processImport(final URI xsltresource, final URI resource) {
-        //  System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
+        System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
+        final URI fedoraBaseUri = config.getFedoraBaseUri();
+        final XdmValue baseUriValue = new XdmAtomicValue(fedoraBaseUri.toString());
         final LocalTime now = LocalTime.now();
         final String resultFile = config.getBaseDirectory() + "/rdf-output_" + now + ".xml";
         final ClassLoader classloader = Thread.currentThread().getContextClassLoader();
@@ -78,9 +82,10 @@ public class Ingester implements TransferProcess {
             final StreamResult result = new StreamResult(new File(resultFile));
             th2.setResult(result);
             final Transformer t = stf.newTransformer();
+            th1.getTransformer().setParameter("BASEURI", baseUriValue);
             th2.getTransformer().setOutputProperty(OutputKeys.INDENT, "yes");
+            th2.getTransformer().setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
             t.transform(new StreamSource(new File(resource.toString())), new SAXResult(th1));
-
             putResult(resultFile);
         } catch (Exception e) {
             e.printStackTrace();

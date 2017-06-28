@@ -39,6 +39,7 @@ public class Config {
     private URI resource;
     private URI xsltresource;
     private URI source;
+    private URI fedoraBaseUri;
     private URI destination;
     private File baseDirectory;
     private File writeConfig;
@@ -124,16 +125,18 @@ public class Config {
 
     /**
      * Sets the location to write a sample config file.
+     *
      * @param configFile The filename where the sample config should be written
-    **/
+     **/
     public void setWriteConfig(final String configFile) {
         this.writeConfig = new File(configFile);
     }
 
     /**
      * Gets the location to write a sample config file.
+     *
      * @return The filename to write the config file to, or null if no config file should be written
-    **/
+     **/
     public File getWriteConfig() {
         return writeConfig;
     }
@@ -194,7 +197,7 @@ public class Config {
 
     /**
      * Returns true if versions should be exported.
-     * 
+     *
      * @return retrieve include versions flag
      */
     public boolean includeVersions() {
@@ -203,7 +206,7 @@ public class Config {
 
     /**
      * Sets flag indicating whether versions should be exported.
-     * 
+     *
      * @param includeVersions in export
      */
     public void setIncludeVersions(final boolean includeVersions) {
@@ -211,7 +214,7 @@ public class Config {
     }
 
     /**
-     * Sets the URI of the resource to import/export
+     * Sets the URI of the stylesheet
      *
      * @param xsltresource URI to import/export
      */
@@ -220,7 +223,7 @@ public class Config {
     }
 
     /**
-     * Sets the URI of the resource to import/export
+     * Sets the URI of the stylesheet
      *
      * @param xsltresource URI to import/export
      */
@@ -233,7 +236,7 @@ public class Config {
     }
 
     /**
-     * Gets the URI of the resource to import/export
+     * Gets the URI of the stylesheet
      *
      * @return resource
      */
@@ -242,7 +245,7 @@ public class Config {
     }
 
     /**
-     * Sets the URI of the resource to import/export
+     * Sets the URI of the XML resource
      *
      * @param resource URI to import/export
      */
@@ -251,7 +254,7 @@ public class Config {
     }
 
     /**
-     * Sets the URI of the resource to import/export
+     * Sets the URI of the XML resource
      *
      * @param resource URI to import/export
      */
@@ -264,7 +267,7 @@ public class Config {
     }
 
     /**
-     * Gets the URI of the resource to import/export
+     * Gets the URI of the XML resource
      *
      * @return resource
      */
@@ -272,7 +275,37 @@ public class Config {
         return resource;
     }
 
+    /**
+     * Sets the URI of the repository
+     *
+     * @param fedoraBaseUri URI to import/export
+     */
+    public void setFedoraBaseUri(final String fedoraBaseUri) {
+        setFedoraBaseUri(URI.create(fedoraBaseUri));
+    }
 
+    /**
+     * Sets the URI of the repository
+     *
+     * @param fedoraBaseUri URI to import/export
+     */
+    private void setFedoraBaseUri(final URI fedoraBaseUri) {
+        if (fedoraBaseUri.toString().endsWith("/")) {
+            this.fedoraBaseUri =
+                    URI.create(fedoraBaseUri.toString().substring(0, fedoraBaseUri.toString().length() - 1));
+        } else {
+            this.fedoraBaseUri = fedoraBaseUri;
+        }
+    }
+
+    /**
+     * Gets the URI of the repository
+     *
+     * @return resource
+     */
+    public URI getFedoraBaseUri() {
+        return fedoraBaseUri;
+    }
 
     /**
      * Sets the URI map, for mapping URIs being imported
@@ -291,9 +324,9 @@ public class Config {
 
     private static void checkTrailingSlashes(final String source, final String destination) {
         if ((source.endsWith("/") && !destination.endsWith("/")) ||
-            (!source.endsWith("/") && destination.endsWith("/"))) {
-            logger.warn("Possible mismatch between the source and destination URIs: one ends with a trailing "
-                + "slash but the other does not: \"{}\" -> \"{}\"", source, destination);
+                (!source.endsWith("/") && destination.endsWith("/"))) {
+            logger.warn("Possible mismatch between the source and destination URIs: one ends with a trailing " +
+                    "slash but the other does not: \"{}\" -> \"{}\"", source, destination);
         }
     }
 
@@ -336,6 +369,7 @@ public class Config {
 
     /**
      * Get the BagIt profile
+     *
      * @return BagIt profile name, or null for not using BagIt
      */
     public String getBagProfile() {
@@ -344,6 +378,7 @@ public class Config {
 
     /**
      * Set the BagIt config yaml file path
+     *
      * @param bagConfigPath The path to the BagIt config yaml file, or null for not using BagIt
      */
     public void setBagConfigPath(final String bagConfigPath) {
@@ -352,6 +387,7 @@ public class Config {
 
     /**
      * Get the BagIt config yaml file path
+     *
      * @return BagIt config yaml file path or null if not using BagIt
      */
     public String getBagConfigPath() {
@@ -360,6 +396,7 @@ public class Config {
 
     /**
      * Set the BagIt profile
+     *
      * @param bagProfile The name of the BagIt profile, or null for not using BagIt
      */
     public void setBagProfile(final String bagProfile) {
@@ -440,7 +477,6 @@ public class Config {
     }
 
     /**
-
      * Turn on/off audit logging
      *
      * @param auditLevel the state of audit logging.
@@ -454,6 +490,7 @@ public class Config {
      * Turn on/off "legacy" mode, a mode in which certain server-managed triples are
      * intentionally omitted from import because updating them wasn't supported by
      * Fedora.
+     *
      * @param legacy true to indicate legacy mode should be enabled, false to disable it
      */
     public void setLegacy(final boolean legacy) {
@@ -462,6 +499,7 @@ public class Config {
 
     /**
      * Check whether "legacy" mode is enabled.
+     *
      * @return true if legacy mode is enabled, false, otherwise
      */
     public boolean isLegacy() {

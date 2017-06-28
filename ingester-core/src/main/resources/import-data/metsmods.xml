@@ -4,7 +4,7 @@
     <GetRecord xmlns:mets="http://www.loc.gov/METS/" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:slub="http://slub-dresden.de/" xmlns:dv="http://dfg-viewer.de/" xmlns:xlink="http://www.w3.org/1999/xlink">
         <record xmlns:mets="http://www.loc.gov/METS/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:slub="http://slub-dresden.de/" xmlns:dv="http://dfg-viewer.de/" xmlns:xlink="http://www.w3.org/1999/xlink">
             <header>
-                <identifier>oai:de:slub-dresden:db:id-263566831</identifier>
+                <identifier>oai:de:slub-dresden:db:id-263566837</identifier>
                 <datestamp>2015-04-24T08:01:45Z</datestamp>
                 <setSpec>16th-century-prints</setSpec>
                 <setSpec>history-of-technology</setSpec>

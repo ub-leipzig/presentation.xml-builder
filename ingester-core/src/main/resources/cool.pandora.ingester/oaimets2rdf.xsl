@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:saxon="http://saxon.sf.net/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dv="http://dfg-viewer.de/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:ow="http://www.ontoweb.org/ontology/1#" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:mets="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" exclude-result-prefixes="xsl xsi oai">
-    <xsl:output method="xml" indent="yes"/>
+    <xsl:output method="xml"/>
+     <xsl:strip-space elements="*" />
+    <xsl:param name="BASEURI"/>
     <xsl:template match="/">
         <rdf:RDF>
             <xsl:apply-templates select="oai:OAI-PMH/oai:GetRecord/oai:record"/>
         </rdf:RDF>
     </xsl:template>
     <xsl:template match="oai:record" priority="1">
-        <rdf:Description rdf:about="{concat('http://localhost:8080/fcrepo/rest/', tokenize(oai:header/oai:identifier, ':')[5])}">
+        <rdf:Description rdf:about="{concat($BASEURI, '/', tokenize(oai:header/oai:identifier, ':')[4], '/', tokenize(oai:header/oai:identifier, ':')[5])}">
             <xsl:apply-templates select="oai:metadata/mets:mets/mets:mets/mets:metsHdr"/>
             <xsl:apply-templates select="oai:metadata/mets:mets/mets:mets/mets:amdSec"/>
             <xsl:apply-templates select="oai:metadata/mets:mets/mets:mets/mets:fileSec"/>

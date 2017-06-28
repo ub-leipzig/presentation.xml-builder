@@ -84,6 +84,12 @@ class ArgParser {
                 .hasArg(true).numberOfArgs(1).argName("dir")
                 .desc("The directory to export to")
                 .required(true).build());
+
+        configOptions.addOption(Option.builder("b")
+                .longOpt("baseUri")
+                .hasArg(true).numberOfArgs(1).argName("baseUri")
+                .desc("The repository URI")
+                .required(true).build());
     }
 
     /**
@@ -146,6 +152,7 @@ class ArgParser {
         config.setResource(cmd.getOptionValue('r'));
         config.setXsltResource(cmd.getOptionValue('x'));
         config.setBaseDirectory(cmd.getOptionValue('d'));
+        config.setFedoraBaseUri(cmd.getOptionValue('b'));
         return config;
     }
 
