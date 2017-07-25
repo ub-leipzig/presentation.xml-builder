@@ -39,7 +39,7 @@ public class Config {
     private URI resource;
     private URI xsltresource;
     private URI source;
-    private URI fedoraBaseUri;
+    private URI serviceBaseUri;
     private URI destination;
     private File baseDirectory;
     private File writeConfig;
@@ -57,8 +57,6 @@ public class Config {
     private String rdfLanguage = DEFAULT_RDF_LANG;
     private String username;
     private String password;
-
-    private boolean auditLog = false;
 
     /**
      * This method returns true if the configuration is set for 'import'
@@ -278,23 +276,23 @@ public class Config {
     /**
      * Sets the URI of the repository
      *
-     * @param fedoraBaseUri URI to import/export
+     * @param serviceBaseUri URI to import/export
      */
-    public void setFedoraBaseUri(final String fedoraBaseUri) {
-        setFedoraBaseUri(URI.create(fedoraBaseUri));
+    public void setServiceBaseUri(final String serviceBaseUri) {
+        setServiceBaseUri(URI.create(serviceBaseUri));
     }
 
     /**
      * Sets the URI of the repository
      *
-     * @param fedoraBaseUri URI to import/export
+     * @param serviceBaseUri URI to import/export
      */
-    private void setFedoraBaseUri(final URI fedoraBaseUri) {
-        if (fedoraBaseUri.toString().endsWith("/")) {
-            this.fedoraBaseUri =
-                    URI.create(fedoraBaseUri.toString().substring(0, fedoraBaseUri.toString().length() - 1));
+    private void setServiceBaseUri(final URI serviceBaseUri) {
+        if (serviceBaseUri.toString().endsWith("/")) {
+            this.serviceBaseUri =
+                    URI.create(serviceBaseUri.toString().substring(0, serviceBaseUri.toString().length() - 1));
         } else {
-            this.fedoraBaseUri = fedoraBaseUri;
+            this.serviceBaseUri = serviceBaseUri;
         }
     }
 
@@ -303,8 +301,8 @@ public class Config {
      *
      * @return resource
      */
-    public URI getFedoraBaseUri() {
-        return fedoraBaseUri;
+    public URI getServiceBaseUri() {
+        return serviceBaseUri;
     }
 
     /**
@@ -482,7 +480,6 @@ public class Config {
      * @param auditLevel the state of audit logging.
      */
     public void setAuditLog(final boolean auditLevel) {
-        this.auditLog = auditLevel;
     }
 
 

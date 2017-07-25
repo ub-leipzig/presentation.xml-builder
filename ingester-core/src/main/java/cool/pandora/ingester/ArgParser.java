@@ -89,7 +89,7 @@ class ArgParser {
                 .longOpt("baseUri")
                 .hasArg(true).numberOfArgs(1).argName("baseUri")
                 .desc("The repository URI")
-                .required(true).build());
+                .required(false).build());
     }
 
     /**
@@ -152,7 +152,7 @@ class ArgParser {
         config.setResource(cmd.getOptionValue('r'));
         config.setXsltResource(cmd.getOptionValue('x'));
         config.setBaseDirectory(cmd.getOptionValue('d'));
-        config.setFedoraBaseUri(cmd.getOptionValue('b'));
+        config.setServiceBaseUri(cmd.getOptionValue('b'));
         return config;
     }
 

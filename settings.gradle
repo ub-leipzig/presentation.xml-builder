@@ -1,2 +1,2 @@
-rootProject.name = 'rdfxml-ingest'
+rootProject.name = 'presentation.xml-builder'
 include 'ingester-core'

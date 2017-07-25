@@ -66,27 +66,23 @@ public class Ingester implements TransferProcess {
 
     private void processImport(final URI xsltresource, final URI resource) {
         System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
-        final URI fedoraBaseUri = config.getFedoraBaseUri();
-        final XdmValue baseUriValue = new XdmAtomicValue(fedoraBaseUri.toString());
+        final URI serviceBaseUri = config.getServiceBaseUri();
+        final XdmValue baseUriValue = new XdmAtomicValue(serviceBaseUri.toString());
         final LocalTime now = LocalTime.now();
-        final String resultFile = config.getBaseDirectory() + "/rdf-output_" + now + ".xml";
-        final ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        final InputStream xsltfile2 = classloader.getResourceAsStream("cool.pandora.ingester/assign_bnodes.xsl");
+        final String resultFile = config.getBaseDirectory() + "/presentation_output_" + now + ".xml";
         final SAXTransformerFactory stf = (SAXTransformerFactory) TransformerFactory.newInstance();
 
         try {
             final TransformerHandler th1 =
                     stf.newTransformerHandler(stf.newTemplates(new StreamSource(new File(xsltresource.toString()))));
-            final TransformerHandler th2 = stf.newTransformerHandler(stf.newTemplates(new StreamSource(xsltfile2)));
-            th1.setResult(new SAXResult(th2));
             final StreamResult result = new StreamResult(new File(resultFile));
-            th2.setResult(result);
+            th1.setResult(result);
             final Transformer t = stf.newTransformer();
             th1.getTransformer().setParameter("BASEURI", baseUriValue);
-            th2.getTransformer().setOutputProperty(OutputKeys.INDENT, "yes");
-            th2.getTransformer().setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            th1.getTransformer().setOutputProperty(OutputKeys.INDENT, "yes");
+            th1.getTransformer().setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
             t.transform(new StreamSource(new File(resource.toString())), new SAXResult(th1));
-            putResult(resultFile);
+            logger.info("Writing transformed output to " + resultFile);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -106,6 +102,5 @@ public class Ingester implements TransferProcess {
             System.out.println(getMessage(e));
         }
     }
-
 
 }
