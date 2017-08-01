@@ -34,7 +34,6 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.time.LocalTime;
 import java.util.List;
@@ -68,8 +67,7 @@ public class Ingester implements TransferProcess {
         System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
         final URI serviceBaseUri = config.getServiceBaseUri();
         final XdmValue baseUriValue = new XdmAtomicValue(serviceBaseUri.toString());
-        final LocalTime now = LocalTime.now();
-        final String resultFile = config.getBaseDirectory() + "/presentation_output_" + now + ".xml";
+        final String resultFile = config.getBaseDirectory() + "/presentation.xml";
         final SAXTransformerFactory stf = (SAXTransformerFactory) TransformerFactory.newInstance();
 
         try {

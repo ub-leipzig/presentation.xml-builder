@@ -13,7 +13,7 @@ A CLI tool that reads a XML file source, transforms it with XSLT, and PUTs the r
     
     example:
      
-    $ ./ingester-core -r ~/IdeaProjects/presentation.xml-builder/ingester-core/src/main/resources/import-data/mets2IIIF.xml -x ~/IdeaProjects/presentation.xml-builder/ingester-core/src/main/resources/cool.pandora.ingester/oaimets2rdf.xsl -d /tmp/output-data -b https://iiif.ub.uni-leipzig.de/fcgi-bin/iipsrv.fcgi?iiif=/j2k/0000/0021/0000002170
+    $ ./ingester-core -r ~/IdeaProjects/presentation.xml-builder/ingester-core/src/main/resources/import-data/SunDie_test.xml -x ~/IdeaProjects/presentation.xml-builder/ingester-core/src/main/resources/cool.pandora.ingester/mets2IIIF.xsl -d /tmp/output-data -b https://iiif.ub.uni-leipzig.de/fcgi-bin/iipsrv.fcgi?iiif=/j2k/0000/0021/0000002170
 
 
 ### METS-MODS
